@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yanghaoyi.project.dao.ProjectMapper">
+
+    <!-- 新增项目 -->
+    <insert id="insertProject" useGeneratedKeys="true" keyProperty="id" parameterType="com.yanghaoyi.project.model.ProjectEntity" >
+         INSERT INTO project VALUES (0,#{name},#{masterId},#{master});
+    </insert>
+
+    <!-- 删除项目 -->
+    <delete id="deleteProjectById" parameterType="Integer">
+        delete from project where id=#{projectId}
+    </delete>
+
+    <!--修改项目-->
+    <update id="updateProjectNameById" parameterType="com.yanghaoyi.project.model.ProjectEntity" >
+        update project set name=#{name} where id=#{id}
+    </update>
+
+    <!--通过项目Id修改项目负责人-->
+    <update id="updateProjectMasterById" parameterType="com.yanghaoyi.project.model.ProjectEntity">
+    update project
+    set masterId=#{masterId},master=#{master}
+    where id=#{id}
+    </update>
+
+    <!--查询项目-->
+    <select id="selectProject"  resultType="com.yanghaoyi.project.model.ProjectEntity">
+        select * from project
+    </select>
+
+    <!-- 新增用户关联项目 -->
+    <insert id="insertUserProject"  parameterType="com.yanghaoyi.project.model.UserProjectEntity" >
+        INSERT INTO user_project VALUES (#{uid},#{pid});
+    </insert>
+
+    <!-- 删除用户关联项目 -->
+    <delete id="deleteUserProjectById" parameterType="com.yanghaoyi.project.model.UserProjectEntity">
+        delete from user_project where uid=#{uid} and pid =#{pid}
+    </delete>
+
+    <!-- 通过用户id查找所属项目 -->
+    <select id="getUserProject" parameterType="Integer" resultType="com.yanghaoyi.project.model.ProjectEntity">
+        select project.* from project LEFT JOIN user_project ON project.id = user_project.pid  LEFT JOIN user_info ON user_info.id = user_project.uid where user_info.id=#{userId}
+   </select>
+
+</mapper>
