@@ -34,9 +34,9 @@ public class DailyWorkEntity {
     /** 工时类型  正常0 / 加班 1 */
     private int workType;
     /** 正常工时 */
-    private double workTime;
+    private Double workTime;
     /** 加班工时 */
-    private double overTimeWorkTime;
+    private Double overTimeWorkTime;
     /** 负责人Id */
     private int masterId;
     /** 负责人 */

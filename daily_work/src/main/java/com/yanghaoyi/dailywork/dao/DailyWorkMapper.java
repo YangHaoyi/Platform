@@ -4,6 +4,8 @@ import com.yanghaoyi.dailywork.model.DailyWorkEntity;
 import com.yanghaoyi.dailywork.model.DateTest;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @author : YangHaoYi on 2020/5/7.
  * Email  :  yang.haoyi@qq.com
@@ -15,4 +17,10 @@ import org.apache.ibatis.annotations.Mapper;
 public interface DailyWorkMapper {
 
     void insertDailyWork(DailyWorkEntity dailyWorkEntity);
+
+    void deleteDailyWorkById(int id);
+
+    void updateDailyWorkById(DailyWorkEntity dailyWorkEntity);
+
+    List<DailyWorkEntity> selectDailyWork();
 }

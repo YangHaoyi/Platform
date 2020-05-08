@@ -15,6 +15,36 @@
          #{workTime},#{overTimeWorkTime},#{masterId},#{masterName},#{description});
     </insert>
 
+    <delete id="deleteDailyWorkById" parameterType="Integer">
+        delete from dailywork where id =#{id}
+    </delete>
+
+    <!--suffixOverrides是去除最后一条数据的逗号-->
+    <update id="updateDailyWorkById" parameterType="com.yanghaoyi.dailywork.model.DailyWorkEntity">
+      update dailywork
+        <trim prefix="set" suffixOverrides=",">
+            <if test="createDate != null">createDate=#{createDate},</if>
+            <if test="userId != 0">userId=#{userId},</if>
+            <if test="userName != null">userName =#{userName},</if>
+            <if test="department != null">department=#{department},</if>
+            <if test="position != null">position=#{position},</if>
+            <if test="projectType != 0">projectType=#{projectType},</if>
+            <if test="project != null">project=#{project},</if>
+            <if test="workDate != null">workDate=#{workDate},</if>
+            <if test="workType != 0">workType=#{workType},</if>
+            <if test="workTime != null and workTime != 0">workTime=#{workTime},</if>
+            <if test="overTimeWorkTime != null and overTimeWorkTime != 0">overTimeWorkTime=#{overTimeWorkTime},</if>
+            <if test="masterId != 0">masterId=#{masterId},</if>
+            <if test="masterName != null">masterName=#{masterName},</if>
+            <if test="description != null">description=#{description},</if>
+        </trim>
+      WHERE id = #{id}
+    </update>
+
+    <select id="selectDailyWork" resultType="com.yanghaoyi.dailywork.model.DailyWorkEntity">
+        select *from dailywork
+    </select>
+
     <!--&lt;!&ndash; 删除 &ndash;&gt;-->
     <!--<delete id="deleteUserById" parameterType="Integer">-->
            <!--delete from user-->
