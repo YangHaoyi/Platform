@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 import static com.yanghaoyi.user.service.constants.ErrCodeConstant.ERROR_PASSWORD;
 import static com.yanghaoyi.user.service.constants.ErrCodeConstant.ERROR_TOKEN;
@@ -84,8 +85,15 @@ public class UserController {
         }
     }
 
-    @ApiOperation(value = "更新用户信息", notes = "更新用户信息", httpMethod = "POST")
-    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ApiOperation(value = "删除用户信息", notes = "删除用户信息", httpMethod = "DELETE")
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response<UserEntity> delete(@RequestParam(value="userId") int userId){
+        userService.deleteUser(userId);
+        return ResponseHelper.createSuccessResponse();
+    }
+
+    @ApiOperation(value = "更新用户信息", notes = "更新用户信息", httpMethod = "PUT")
+    @RequestMapping(value = "/update", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response<UserEntity> update(@RequestBody UserEntity userEntity){
         userService.updateUser(userEntity);
         return ResponseHelper.createSuccessResponse();
@@ -101,15 +109,17 @@ public class UserController {
         return ResponseHelper.createSuccessResponse(userService.findUserById(userId));
     }
 
+    @ApiOperation(value = "查询所有用户信息", notes = "查询所有用户信息", httpMethod = "GET")
+    @RequestMapping(value = "/info/all", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response<List<UserEntity>> getAllUserInfo() {
+        return ResponseHelper.createSuccessResponse(userService.findAllUser());
+    }
+
     @ApiOperation(value = "获取用户Id", notes = "根据token获取用户Id", httpMethod = "GET")
     @RequestMapping(value = "/userId", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response<Integer> getUserId(){
         return ResponseHelper.createSuccessResponse(TokenUtil.getTokenUserId());
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public String testApiGetWay(){
-        return "success";
-    }
 
 }

@@ -36,7 +36,7 @@ public class Swagger2 {
         tokenPar.name("x-access-token").description("令牌").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
         pars.add(tokenPar.build());
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("项目服务")
+                .groupName("项目系统")
                 .globalOperationParameters(pars)
                 .apiInfo(apiInfo())
                 .select()
@@ -71,8 +71,8 @@ public class Swagger2 {
      */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("项目服务")
-                .description("项目服务")
+                .title("项目系统")
+                .description("项目系统")
                 .contact(new Contact("杨浩艺", "http://petstore.swagger.io/v2/swagger.json", "yang.haoyi@qq.com"))
                 .version("1.0")
                 .build();

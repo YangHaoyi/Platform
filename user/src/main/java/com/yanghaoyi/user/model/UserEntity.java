@@ -31,6 +31,4 @@ public class UserEntity implements Serializable {
     private String department;
     /** 职位 */
     private String position;
-//    /** 所属项目 */
-//    private List<String> projectList;
 }

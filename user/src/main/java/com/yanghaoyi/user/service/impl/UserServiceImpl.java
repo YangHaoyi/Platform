@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,9 +52,13 @@ public class UserServiceImpl implements IUserService, RabbitTemplate.ConfirmCall
     }
 
     @Override
-    public UserEntity updateUser(UserEntity userEntity) {
-        UserEntity user = findUserById(userEntity.getId());
-        return user;
+    public void deleteUser(int userId) {
+        userMapper.deleteUser(userId);
+    }
+
+    @Override
+    public void updateUser(UserEntity userEntity) {
+        userMapper.updateUser(userEntity);
     }
 
     @Override
@@ -74,6 +79,11 @@ public class UserServiceImpl implements IUserService, RabbitTemplate.ConfirmCall
             userEntity = userMapper.findUserById(id);
         }
         return userEntity;
+    }
+
+    @Override
+    public List<UserEntity> findAllUser() {
+        return userMapper.findAllUser();
     }
 
     @Override

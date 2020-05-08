@@ -46,8 +46,8 @@ public class ProjectController {
         return ResponseHelper.createSuccessResponse();
     }
 
-    @ApiOperation(value = "修改项目名称",notes = "根据项目Id修改项目名称",httpMethod = "PATCH")
-    @RequestMapping(value = "/project/master",method = RequestMethod.PATCH,produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ApiOperation(value = "修改项目所属负责人",notes = "根据项目Id修改项目所属负责人",httpMethod = "PATCH")
+    @RequestMapping(value = "/master",method = RequestMethod.PATCH,produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response<Object> updateProjectMaster(@RequestParam(value = "id") int id,@RequestParam(value = "masterId") int masterId,@RequestParam(value = "master") String master){
         projectService.updateProjectMasterById(id,masterId,master);
         return ResponseHelper.createSuccessResponse();

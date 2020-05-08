@@ -2,6 +2,8 @@ package com.yanghaoyi.user.service;
 
 import com.yanghaoyi.user.model.UserEntity;
 
+import java.util.List;
+
 /**
  * @author : YangHaoYi on 2020/4/24.
  * Email  :  yang.haoyi@qq.com
@@ -13,11 +15,15 @@ public interface IUserService {
 
     UserEntity insertUser(String userName, String password);
 
-    UserEntity updateUser(UserEntity userEntity);
+    void deleteUser(int userId);
+
+    void updateUser(UserEntity userEntity);
 
     UserEntity findUserByUserName(String userName);
 
     UserEntity findUserById(int id);
+
+    List<UserEntity> findAllUser();
 
     String createToken(UserEntity userEntity);
 }

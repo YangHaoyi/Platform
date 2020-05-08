@@ -43,16 +43,16 @@ public class SendEmailReceiver {
 //        message.setText("注册成功!!");//正文
 //        mailSender.send(message);
 
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.qq.com");
-        mailSender.setPort(25);
-        mailSender.setUsername("1061057519@qq.com");
-        mailSender.setPassword("");
-
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("1061057519@qq.com");
-        message.setTo("qweyhy@qq.com");
-        message.setText(userEntity.getUserName() + "  注册成功");
-        mailSender.send(message);
+//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+//        mailSender.setHost("smtp.qq.com");
+//        mailSender.setPort(25);
+//        mailSender.setUsername("1061057519@qq.com");
+//        mailSender.setPassword("");
+//
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setFrom("1061057519@qq.com");
+//        message.setTo("qweyhy@qq.com");
+//        message.setText(userEntity.getUserName() + "  注册成功");
+//        mailSender.send(message);
     }
 }
