@@ -1,9 +1,14 @@
 package com.yanghaoyi.project.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yanghaoyi.project.dao.ProjectMapper;
 import com.yanghaoyi.project.model.ProjectEntity;
 import com.yanghaoyi.project.model.UserProjectEntity;
+import com.yanghaoyi.project.pojo.parameter.ProjectPageParams;
+import com.yanghaoyi.project.pojo.result.PageResult;
 import com.yanghaoyi.project.service.IProjectService;
+import com.yanghaoyi.project.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +55,14 @@ public class ProjectServiceImpl implements IProjectService{
     }
 
     @Override
+    public PageResult selectPageProject(int pageNumber,int pageSize) {
+        ProjectPageParams pageParams = new ProjectPageParams();
+        pageParams.setPageNum(pageNumber);
+        pageParams.setPageSize(pageSize);
+        return PageUtil.getPageResult(pageParams, getProjectPageInfo(pageParams));
+    }
+
+    @Override
     public void insertUserProject(int userId, int projectId) {
         UserProjectEntity userProjectEntity = new UserProjectEntity();
         userProjectEntity.setUid(userId);
@@ -68,5 +81,14 @@ public class ProjectServiceImpl implements IProjectService{
     @Override
     public List<ProjectEntity> getUserProject(int userId) {
         return projectMapper.getUserProject(userId);
+    }
+
+
+    private PageInfo<ProjectEntity> getProjectPageInfo(ProjectPageParams projectPageParams){
+        int pageNum = projectPageParams.getPageNum();
+        int pageSize = projectPageParams.getPageSize();
+        PageHelper.startPage(pageNum, pageSize);
+        List<ProjectEntity> projectEntityList = projectMapper.selectProject();
+        return new PageInfo<ProjectEntity>(projectEntityList);
     }
 }

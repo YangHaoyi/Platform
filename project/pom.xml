@@ -83,6 +83,13 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<version>1.2.5</version>
+		</dependency>
+
+
         <!--&lt;!&ndash;添加Swagger依赖开始&ndash;&gt;-->
 		<!--<dependency>-->
 			<!--<groupId>io.springfox</groupId>-->

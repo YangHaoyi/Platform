@@ -60,6 +60,13 @@ public class ProjectController {
         return ResponseHelper.createSuccessResponse(projectService.selectProject());
     }
 
+    @ApiOperation(value = "分页查询项目",notes = "分页查询项目",httpMethod = "GET")
+    @RequestMapping(value = "/project/page",method = RequestMethod.GET,produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response<Object> getProjectList(@RequestParam(value = "pageNum")int pageNum,@RequestParam(value = "pageSize") int pageSize){
+        return ResponseHelper.createSuccessResponse(projectService.selectPageProject(pageNum,pageSize));
+    }
+
+
     @ApiOperation(value = "添加用户所属项目",notes = "添加用户所属项目",httpMethod = "POST")
     @RequestMapping(value = "/userProject",method = RequestMethod.POST,produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response<Object> insertUserProject(@RequestParam(value="userId")int userId,@RequestParam(value="projectId")int projectId){

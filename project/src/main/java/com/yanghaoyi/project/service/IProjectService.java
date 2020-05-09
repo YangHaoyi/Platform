@@ -1,6 +1,8 @@
 package com.yanghaoyi.project.service;
 
 import com.yanghaoyi.project.model.ProjectEntity;
+import com.yanghaoyi.project.pojo.parameter.ProjectPageParams;
+import com.yanghaoyi.project.pojo.result.PageResult;
 
 import java.util.List;
 
@@ -18,6 +20,8 @@ public interface IProjectService {
     void updateProjectMasterById(int projectId,int masterId,String master);
 
     List<ProjectEntity> selectProject();
+
+    PageResult selectPageProject(int pageNumber,int pageSize);
 
     void insertUserProject(int userId,int projectId);
 

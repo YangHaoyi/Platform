@@ -29,6 +29,10 @@
         select * from project
     </select>
 
+    <select id="selectProjectByPage" resultType="com.yanghaoyi.project.model.ProjectEntity">
+         select * from project
+    </select>
+
     <!-- 新增用户关联项目 -->
     <insert id="insertUserProject"  parameterType="com.yanghaoyi.project.model.UserProjectEntity" >
         INSERT INTO user_project VALUES (#{uid},#{pid});

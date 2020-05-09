@@ -22,6 +22,8 @@ public interface ProjectMapper {
 
     List<ProjectEntity> selectProject();
 
+    List<ProjectEntity> selectProjectByPage();
+
     int insertUserProject(UserProjectEntity userProjectEntity);
 
     int deleteUserProjectById(UserProjectEntity userProjectEntity);
