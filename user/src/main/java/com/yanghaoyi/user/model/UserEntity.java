@@ -17,8 +17,6 @@ import java.util.List;
 public class UserEntity implements Serializable {
     /** 主键ID */
     private Integer id;
-    /** 用户Token */
-    private String token;
     /** 登录名（工作邮箱） */
     private String userName;
     /** 登录密码 */

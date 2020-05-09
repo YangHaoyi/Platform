@@ -1,6 +1,8 @@
 package com.yanghaoyi.user.service;
 
 import com.yanghaoyi.user.model.UserEntity;
+import com.yanghaoyi.user.pojo.result.LoginResult;
+import com.yanghaoyi.user.pojo.result.VerifyCodeResult;
 
 import java.util.List;
 
@@ -13,7 +15,14 @@ import java.util.List;
  */
 public interface IUserService {
 
+    VerifyCodeResult getVerifyCode(String userName);
+
+    UserEntity registerByVerifyCode(String userName, String verifyCode);
+
+    LoginResult loginByVerifyCode(UserEntity userEntity,String verifyCode);
+
     UserEntity insertUser(String userName, String password);
+
 
     void deleteUser(int userId);
 

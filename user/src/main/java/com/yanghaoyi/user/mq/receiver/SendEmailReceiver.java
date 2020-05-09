@@ -2,6 +2,7 @@ package com.yanghaoyi.user.mq.receiver;
 
 import com.yanghaoyi.user.config.RabbitConfig;
 import com.yanghaoyi.user.model.UserEntity;
+import com.yanghaoyi.user.pojo.result.VerifyCodeResult;
 import com.yanghaoyi.user.util.RedisUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -31,7 +32,7 @@ public class SendEmailReceiver {
 //    private JavaMailSender mailSender;
 
     @RabbitHandler
-    public void process(UserEntity userEntity) {
+    public void process(VerifyCodeResult verifyCodeResult) {
         log.warn("发送邮件 ");
 //        redisUtil.set("user"+userEntity.getId(), userEntity, 60);
 //        log.warn("插入redis库结束 ");
@@ -43,16 +44,20 @@ public class SendEmailReceiver {
 //        message.setText("注册成功!!");//正文
 //        mailSender.send(message);
 
-//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-//        mailSender.setHost("smtp.qq.com");
-//        mailSender.setPort(25);
-//        mailSender.setUsername("1061057519@qq.com");
-//        mailSender.setPassword("");
-//
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setFrom("1061057519@qq.com");
-//        message.setTo("qweyhy@qq.com");
-//        message.setText(userEntity.getUserName() + "  注册成功");
-//        mailSender.send(message);
+        redisUtil.set("register"+verifyCodeResult.getUserName(), verifyCodeResult, 60);
+
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.qq.com");
+        mailSender.setPort(25);
+        mailSender.setUsername("1061057519@qq.com");
+        //开源模式删除邮箱密钥
+        mailSender.setPassword("");
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("1061057519@qq.com");
+        message.setTo("qweyhy@qq.com");
+        message.setSubject("OA注册");//主题
+        message.setText(verifyCodeResult.getUserName() + "  欢迎注册OA系统" + "  验证码为 ：" +verifyCodeResult.getVerifyCode());
+        mailSender.send(message);
     }
 }

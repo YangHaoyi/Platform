@@ -1,10 +1,13 @@
 package com.yanghaoyi.user.service.impl;
 
+import com.yanghaoyi.token.exception.RegisterException;
 import com.yanghaoyi.token.exception.TokenException;
 import com.yanghaoyi.token.util.JwtUtil;
 import com.yanghaoyi.user.dao.UserMapper;
 import com.yanghaoyi.user.model.UserEntity;
 import com.yanghaoyi.user.mq.producer.RegisterProducer;
+import com.yanghaoyi.user.pojo.result.LoginResult;
+import com.yanghaoyi.user.pojo.result.VerifyCodeResult;
 import com.yanghaoyi.user.service.IUserService;
 import com.yanghaoyi.user.service.constants.ErrCodeConstant;
 import com.yanghaoyi.user.util.RedisUtil;
@@ -18,6 +21,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @author : YangHaoYi on 2020/4/24.
@@ -40,6 +44,48 @@ public class UserServiceImpl implements IUserService, RabbitTemplate.ConfirmCall
     private final long tokenFailureTime = 60*1000;
 
     @Override
+    /** 获取验证码 ***/
+    public VerifyCodeResult getVerifyCode(String userName) {
+        if (redisUtil.hasKey("register" + userName) && redisUtil.getExpire("register" + userName) > 0) {
+            long leftTime = redisUtil.getExpire("register" + userName);
+            if(leftTime == 0){
+                leftTime = 1;
+            }
+            throw new RegisterException(ErrCodeConstant.ERROR_VERFY_CODE_TOO_FAST, "操作过快，请秒"+ leftTime +"后再次尝试");
+        }else {
+            String verifyCode = String.valueOf(new Random(System.currentTimeMillis()).nextInt(899999) + 100000);
+            VerifyCodeResult verifyCodeResult = new VerifyCodeResult();
+            verifyCodeResult.setUserName(userName);
+            verifyCodeResult.setVerifyCode(verifyCode);
+            rabbitTemplate.sendVerifyCode(verifyCodeResult);
+            return verifyCodeResult;
+        }
+    }
+
+    @Override
+    /** 通过验证码进行注册 ***/
+    public UserEntity registerByVerifyCode(String userName, String verifyCode) {
+        UserEntity userEntity = new UserEntity();
+        if(verifyByRedis(userName,verifyCode)){
+            userEntity.setUserName(userName);
+            userMapper.insertUser(userEntity);
+        }
+        return userEntity;
+    }
+
+    @Override
+    /** 通过验证码进行登录 ***/
+    public LoginResult loginByVerifyCode(UserEntity userEntity,String verifyCode) {
+        LoginResult loginResult = new LoginResult();
+        if(verifyByRedis(userEntity.getUserName(),verifyCode)){
+            String token = createToken(userEntity);
+            loginResult.setToken(token);
+            loginResult.setUserEntity(userEntity);
+        }
+        return loginResult;
+    }
+
+    @Override
     public UserEntity insertUser(String userName,String password) {
         UserEntity userEntity = new UserEntity();
         userEntity.setUserName(userName);
@@ -47,7 +93,7 @@ public class UserServiceImpl implements IUserService, RabbitTemplate.ConfirmCall
         log.warn("插入数据库开始 ");
         userMapper.insertUser(userEntity);
         log.warn("插入数据库结束 ");
-        rabbitTemplate.sendMsg(userEntity);
+//        rabbitTemplate.sendMsg(userEntity);
         return userEntity;
     }
 
@@ -108,6 +154,20 @@ public class UserServiceImpl implements IUserService, RabbitTemplate.ConfirmCall
             log.warn("消息消费失败:" + s);
         }
 
+    }
+
+
+    /** 验证缓存验证码是否正确 ***/
+    private boolean verifyByRedis(String userName, String verifyCode){
+        if (redisUtil.hasKey("register" + userName) && redisUtil.getExpire("register" + userName) > 0
+                //从Redis中获取用户对应的验证码并进行比对
+                &&((VerifyCodeResult)redisUtil.get("register" + userName)).getVerifyCode().equals(verifyCode)) {
+            //验证码使用，删除缓存
+            redisUtil.del("register" + userName);
+            return true;
+        }else {
+            throw new RegisterException(ErrCodeConstant.ERROR_VERFY_CODE, "验证码错误");
+        }
     }
 
 //    启动redis https://www.cnblogs.com/chaojiyingxiong/p/11281502.html

@@ -2,6 +2,7 @@ package com.yanghaoyi.user.mq.producer;
 
 import com.yanghaoyi.user.config.RabbitConfig;
 import com.yanghaoyi.user.model.UserEntity;
+import com.yanghaoyi.user.pojo.result.VerifyCodeResult;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -38,6 +39,12 @@ public class RegisterProducer implements RabbitTemplate.ConfirmCallback {
         rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_USER, RabbitConfig.ROUTINGKEY_USER, userEntity, correlationId);
         rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_USER, RabbitConfig.ROUTINGKEY_EMAIL, userEntity, correlationId);
     }
+
+    public void sendVerifyCode(VerifyCodeResult verifyCodeResult){
+        CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
+        rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_USER, RabbitConfig.ROUTINGKEY_EMAIL, verifyCodeResult, correlationId);
+    }
+
     /**
      * 回调
      */
