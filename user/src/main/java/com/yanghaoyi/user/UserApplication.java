@@ -12,6 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableEurekaClient
 @EnableFeignClients
+@ComponentScan({"com.yanghaoyi.redis","com.yanghaoyi.user"})
 public class UserApplication {
 
 	public static void main(String[] args) {

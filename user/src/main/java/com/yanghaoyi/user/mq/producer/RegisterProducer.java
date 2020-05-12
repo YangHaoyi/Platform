@@ -37,7 +37,7 @@ public class RegisterProducer implements RabbitTemplate.ConfirmCallback {
         CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
         //把消息放入ROUTINGKEY_USER对应的队列当中去，对应的是队列USER
         rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_USER, RabbitConfig.ROUTINGKEY_USER, userEntity, correlationId);
-        rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_USER, RabbitConfig.ROUTINGKEY_EMAIL, userEntity, correlationId);
+//        rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_USER, RabbitConfig.ROUTINGKEY_EMAIL, userEntity, correlationId);
     }
 
     public void sendVerifyCode(VerifyCodeResult verifyCodeResult){

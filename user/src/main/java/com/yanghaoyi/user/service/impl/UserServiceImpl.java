@@ -1,5 +1,6 @@
 package com.yanghaoyi.user.service.impl;
 
+import com.yanghaoyi.redis.RedisUtil;
 import com.yanghaoyi.token.exception.RegisterException;
 import com.yanghaoyi.token.exception.TokenException;
 import com.yanghaoyi.token.util.JwtUtil;
@@ -10,7 +11,6 @@ import com.yanghaoyi.user.pojo.result.LoginResult;
 import com.yanghaoyi.user.pojo.result.VerifyCodeResult;
 import com.yanghaoyi.user.service.IUserService;
 import com.yanghaoyi.user.service.constants.ErrCodeConstant;
-import com.yanghaoyi.user.util.RedisUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -93,7 +93,7 @@ public class UserServiceImpl implements IUserService, RabbitTemplate.ConfirmCall
         log.warn("插入数据库开始 ");
         userMapper.insertUser(userEntity);
         log.warn("插入数据库结束 ");
-//        rabbitTemplate.sendMsg(userEntity);
+        rabbitTemplate.sendMsg(userEntity);
         return userEntity;
     }
 
