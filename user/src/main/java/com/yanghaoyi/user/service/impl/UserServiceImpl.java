@@ -90,9 +90,7 @@ public class UserServiceImpl implements IUserService, RabbitTemplate.ConfirmCall
         UserEntity userEntity = new UserEntity();
         userEntity.setUserName(userName);
         userEntity.setPassword(password);
-        log.warn("插入数据库开始 ");
         userMapper.insertUser(userEntity);
-        log.warn("插入数据库结束 ");
         rabbitTemplate.sendMsg(userEntity);
         return userEntity;
     }
@@ -158,7 +156,7 @@ public class UserServiceImpl implements IUserService, RabbitTemplate.ConfirmCall
 
 
     /** 验证缓存验证码是否正确 ***/
-    private boolean verifyByRedis(String userName, String verifyCode){
+    private boolean verifyByRedis(String userName, String verifyCode) {
         if (redisUtil.hasKey("register" + userName) && redisUtil.getExpire("register" + userName) > 0
                 //从Redis中获取用户对应的验证码并进行比对
                 &&((VerifyCodeResult)redisUtil.get("register" + userName)).getVerifyCode().equals(verifyCode)) {
