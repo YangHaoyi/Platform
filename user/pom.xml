@@ -73,17 +73,6 @@
 		</dependency>
 		<!--配置mybatis结束-->
 
-		<!--配置redis-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>com.yanghaoyi.redis</groupId>-->
-			<!--<artifactId>redis</artifactId>-->
-			<!--<version>0.0.1-SNAPSHOT</version>-->
-		<!--</dependency>-->
-
 		<!--省去get set方法-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -98,20 +87,6 @@
 			<!--<artifactId>jjwt</artifactId>-->
 			<!--<version>0.9.0</version>-->
 		<!--</dependency>-->
-
-
-
-		<dependency>
-			<groupId>com.yanghaoyi.common</groupId>
-			<artifactId>common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.yanghaoyi.token</groupId>
-			<artifactId>token</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 
 		<!-- 添加Gson依赖 -->
 		<!--<dependency>-->
