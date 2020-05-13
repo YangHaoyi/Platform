@@ -25,29 +25,29 @@ import org.springframework.stereotype.Component;
 @Log4j2
 public class AuthorityAspect {
 
-    @Autowired
-    UserMapper userMapper;
-
-
-    @Pointcut("execution(* com.yanghaoyi.user.service.impl.UserServiceImpl.deleteUser(..))")
-    private void authDeleteUser(){
-
-    }
-
-    @Around("authDeleteUser()")
-    public void beforeInsertUser(ProceedingJoinPoint pjp){
-            int userId = TokenUtil.getTokenUserId();
-            UserEntity userEntity =userMapper.findUserById(userId);
-            log.warn("用户信息为  : "+ userEntity.toString());
-            if (userEntity.getMaster() == 1) {
-                try {
-                    pjp.proceed();
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-            }else {
-                throw new AuthorityException(ErrCodeConstant.ERROR_AUTH, "没有权限");
-            }
-    }
+//    @Autowired
+//    UserMapper userMapper;
+//
+//
+//    @Pointcut("execution(* com.yanghaoyi.user.service.impl.UserServiceImpl.deleteUser(..))")
+//    private void authDeleteUser(){
+//
+//    }
+//
+//    @Around("authDeleteUser()")
+//    public void beforeInsertUser(ProceedingJoinPoint pjp){
+//            int userId = TokenUtil.getTokenUserId();
+//            UserEntity userEntity =userMapper.findUserById(userId);
+//            log.warn("用户信息为  : "+ userEntity.toString());
+//            if (userEntity.getMaster() == 1) {
+//                try {
+//                    pjp.proceed();
+//                } catch (Throwable throwable) {
+//                    throwable.printStackTrace();
+//                }
+//            }else {
+//                throw new AuthorityException(ErrCodeConstant.ERROR_AUTH, "没有权限");
+//            }
+//    }
 
 }

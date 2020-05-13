@@ -4,6 +4,8 @@ import com.yanghaoyi.common.response.Response;
 import com.yanghaoyi.common.response.ResponseHelper;
 import com.yanghaoyi.token.exception.TokenException;
 import com.yanghaoyi.token.util.TokenUtil;
+import com.yanghaoyi.user.aop.auth.PermissionModule;
+import com.yanghaoyi.user.aop.auth.enu.Module;
 import com.yanghaoyi.user.model.UserEntity;
 import com.yanghaoyi.user.pojo.result.LoginResult;
 import com.yanghaoyi.user.pojo.result.VerifyCodeResult;
@@ -111,6 +113,7 @@ public class UserController {
         }
     }
 
+    @PermissionModule(belong= {Module.MASTER})
     @ApiOperation(value = "删除用户信息", notes = "删除用户信息", httpMethod = "DELETE")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response<UserEntity> delete(@RequestParam(value="userId") int userId){
