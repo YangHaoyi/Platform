@@ -19,6 +19,11 @@ public class ErrCodeConstant {
     public static final int ERROR_PASSWORD = 11003;
 
     /**
+     * <p>权限不足</p>
+     */
+    public static final int ERROR_AUTH = 11004;
+
+    /**
      * <p>用户已经注册</p>
      */
     public static final int ERROR_USER_ALREADY_REGISTER = 12001;
@@ -32,4 +37,6 @@ public class ErrCodeConstant {
      * <p>验证码错误</p>
      */
     public static final int ERROR_VERFY_CODE = 12003;
+
+
 }

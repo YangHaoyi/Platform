@@ -6,7 +6,7 @@
     <!--小写values没变色，会造成语句错误-->
     <!--INSERT INTO user_info valus(0,#{userName},#{password});-->
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.yanghaoyi.user.model.UserEntity" >
-         INSERT INTO user VALUES (0,#{userName},#{password},#{name},#{idNumber},#{department},#{position});
+         INSERT INTO user VALUES (0,#{userName},#{password},#{name},#{idNumber},#{department},#{position},#{master});
     </insert>
 
     <delete id="deleteUser" parameterType="Integer">
@@ -24,6 +24,7 @@
               <if test="idNumber !=null"> idNumber = #{idNumber},</if>
               <if test="department !=null"> department = #{department},</if>
               <if test="position !=null"> position = #{position},</if>
+              <if test="master !=null"> master = #{master},</if>
           </trim>
         where id=#{id}
     </update>

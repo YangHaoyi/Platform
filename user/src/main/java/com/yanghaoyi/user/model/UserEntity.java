@@ -29,4 +29,6 @@ public class UserEntity implements Serializable {
     private String department;
     /** 职位 */
     private String position;
+    /** 管理员 */
+    private Integer master;
 }
